@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "generator.h": "c",
+        "omp.h": "c"
+    }
+}
