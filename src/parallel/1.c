@@ -4,8 +4,6 @@
 #include <time.h>
 #include "../lib/headers/generator.h"
 
-#define SIZE 500000000
-
 /* Dado um vetor com 5e8 de elementos aleatórios, escrever um programa que faça
  * uma busca por um valor N (0.3578)
  */
@@ -18,15 +16,21 @@ int main(int argc, char const *argv[])
     int index_of_target = -1;
     float target = 0.3578; // N
 
+    int NTHREADS = omp_get_num_threads() / 2;
+
     double t_start = omp_get_wtime();
 
-    for (int i = 0; i < SIZE; i++)
+#pragma omp parallel num_threads(NTHREADS)
     {
-        // printf("%f\n", v[i]);
-        if (v[i] == target)
+#pragma omp for
+        for (int i = 0; i < SIZE; i++)
         {
-            index_of_target = i;
-            break;
+            // printf("%f\n", v[i]);
+            if (v[i] == target)
+            {
+                index_of_target = i;
+                break;
+            }
         }
     }
 
