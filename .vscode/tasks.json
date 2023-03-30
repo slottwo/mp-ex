@@ -2,8 +2,8 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: gcc-10 arquivo de build ativo",
-            "command": "/usr/bin/gcc-10",
+            "label": "C/C++: gcc arquivo de build ativo",
+            "command": "/usr/bin/gcc",
             "args": [
                 "-fopenmp",
                 "-fdiagnostics-color=always",
@@ -22,7 +22,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Tarefa gerada pelo Depurador."
+            "detail": "Compilador: /usr/bin/gcc"
         }
     ],
     "version": "2.0.0"
