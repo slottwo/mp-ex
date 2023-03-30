@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../lib/headers/generator.h"
+#include "../../lib/headers/generator.h"
 
 /* Dado um vetor com 5e8 de elementos aleatórios, escrever um programa que faça
  * uma busca por um valor N (0.3578)
@@ -20,7 +20,6 @@ int main(int argc, char const *argv[])
 
     for (int i = 0; i < SIZE; i++)
     {
-        // printf("%f\n", v[i]);
         if (v[i] == target)
         {
             index_of_target = i;
