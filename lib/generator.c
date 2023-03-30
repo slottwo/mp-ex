@@ -3,17 +3,17 @@
 #include <time.h>
 #include "headers/generator.h"
 
-void gen_vector(float *v)
+void gen_vector(double *v)
 {
     time_t t;
     srand((unsigned)time(&t));
-    
-#pragma omp parallel num_threads(6)
+
+#pragma omp parallel num_threads(3)
     {
-        #pragma omp for
+#pragma omp for
         for (int i = 0; i < SIZE; i++)
         {
-            v[i] = (rand() / (float)RAND_MAX);
+            v[i] = (rand() / (double)RAND_MAX);
         }
     }
 }

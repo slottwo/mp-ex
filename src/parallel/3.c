@@ -2,14 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../lib/headers/generator.h"
+#include "../../lib/headers/generator.h"
+
 
 int main(int argc, char const *argv[])
 {
-    float *v = (float *)malloc(SIZE * sizeof(float));
+    double *v = (double *)malloc(SIZE * sizeof(double));
     gen_vector(v);
 
-    float average = 0;
+    double average = 0;
 
     int NTHREADS = omp_get_num_procs() / 2;
 
