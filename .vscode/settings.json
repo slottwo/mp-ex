@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "generator.h": "c",
-        "omp.h": "c"
+        "omp.h": "c",
+        "stdlib.h": "c"
     }
 }
