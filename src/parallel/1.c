@@ -10,11 +10,11 @@
 
 int main(int argc, char const *argv[])
 {
-    float *v = (float *)malloc(SIZE * sizeof(float));
+    double *v = (double *)malloc(SIZE * sizeof(double));
     gen_vector(v);
 
     int index_of_target = -1;
-    float target = 0.3578; // N
+    double target = 0.3578; // N
 
     int NTHREADS = omp_get_num_threads() / 2;
 
