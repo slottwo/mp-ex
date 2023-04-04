@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
             if (v[i] == target)
             {
                 index_of_target = i;
-                break;
+                i = SIZE;
             }
         }
     }
