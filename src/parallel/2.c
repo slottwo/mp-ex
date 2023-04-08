@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// #include "../../lib/headers/generator.h"
 
 int main(int argc, char const *argv[])
 {

@@ -11,7 +11,7 @@
 int main(int argc, char const *argv[])
 {
     float *v = (float *)malloc(SIZE * sizeof(float));
-    gen_vector(v);
+    gen_vector_zto(v);
 
     int index_of_target = -1;
     float target = 0.3578; // N
