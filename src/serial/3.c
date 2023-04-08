@@ -6,8 +6,8 @@
 
 int main(int argc, char const *argv[])
 {
-    double *v = (double *)malloc(SIZE * sizeof(double));
-    gen_vector(v);
+    int *v = (int *)malloc(SIZE * sizeof(int));
+    gen_vector_int(v, 1, 100000);
 
     double average = 0;
 
