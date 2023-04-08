@@ -10,11 +10,11 @@
 
 int main(int argc, char const *argv[])
 {
-    float *v = (float *)malloc(SIZE * sizeof(float));
+    double *v = (double *)malloc(SIZE * sizeof(double));
     gen_vector_zto(v);
 
     int index_of_target = -1;
-    float target = 0.3578; // N
+    double target = 0.3578; // N
 
     int NTHREADS = omp_get_num_threads() / 2;
 
@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
             if (v[i] == target)
             {
                 index_of_target = i;
-                break;
+                i = SIZE;
             }
         }
     }
