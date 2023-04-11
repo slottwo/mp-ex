@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
-#include "headers/generator.h"
+#include "headers/generators.h"
 
 void gen_vector_zto(double *v)
 {
@@ -31,4 +29,9 @@ void gen_vector_int(int *v, int min, int max)
             v[i] = (rand() % max + min);
         }
     }
+}
+
+int gen_int(int min, int max)
+{
+    return rand() % max + min;
 }

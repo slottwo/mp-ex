@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../../lib/headers/generator.h"
+#include "../../lib/headers/generators.h"
 
 /* Dado um vetor com 5e8 de elementos aleatórios, escrever um programa que faça
  * uma busca por um valor N (0.3578)

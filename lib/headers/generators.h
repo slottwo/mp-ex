@@ -2,3 +2,4 @@
 
 void gen_vector_zto(double *);
 void gen_vector_int(int *, int, int);
+int gen_int(int, int);
