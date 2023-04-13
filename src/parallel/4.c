@@ -1,7 +1,7 @@
 #include <omp.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "../../lib/headers/generators.h"
 
 int main(int argc, char const *argv[])
@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
     int NTHREADS = omp_get_num_procs() / 2;
 
     int n = gen_int(1, 100000000);
-    printf("%d\n");
+    printf("number: %d\n");
 
     // Serial
 
@@ -20,13 +20,12 @@ int main(int argc, char const *argv[])
     {
         if (n % i == 0)
         {
-            printf("%d ", i);
             sum += i;
         }
     }
 
     double t_serial = omp_get_wtime() - t_start;
-    printf("sum: %d\n", sum);
+    printf("sum_serial: %d\n", sum);
 
     // Critical
 
@@ -42,7 +41,6 @@ int main(int argc, char const *argv[])
         {
             if (n % i == 0)
             {
-                printf("%d ", i);
                 sum_aux += i;
             }
         }
@@ -50,11 +48,55 @@ int main(int argc, char const *argv[])
         sum += sum_aux;
     }
 
-    double t_critical = omp_get_wtime() - t_critical;
+    double t_critical = omp_get_wtime() - t_start;
     printf("sum_critical: %d\n", sum);
 
-    printf("\nt_serial: %.6fs\n", t_serial);
-    printf("\nt_critical: %.6fs\n", t_critical);
+    // Reduction Static
+
+    sum = 0;
+    t_start = omp_get_wtime();
+
+#pragma omp parallel num_threads(NTHREADS)
+#pragma omp for reduction(+ \
+                          : sum) schedule(static)
+    for (int i = 1; i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            sum += i;
+        }
+    }
+
+    double t_static = omp_get_wtime() - t_start;
+    printf("sum_static: %d\n", sum);
+
+    // Reduction Dynamic
+
+    sum = 0;
+    t_start = omp_get_wtime();
+
+#pragma omp parallel num_threads(NTHREADS)
+    {
+#pragma omp for reduction(+ \
+                          : sum) schedule(dynamic)
+        for (int i = 1; i <= n; i++)
+        {
+            if (n % i == 0)
+            {
+                sum += i;
+            }
+        }
+    }
+
+    double t_dynamic = omp_get_wtime() - t_start;
+    printf("sum_dynamic: %d\n", sum);
+
+    printf("\nserial time: %.6fs\n", t_serial);
+    printf("\n----------------\n\n");
+
+    statistic_log("critical", 8, t_critical, t_serial, NTHREADS);
+    statistic_log("static", 6, t_static, t_serial, NTHREADS);
+    statistic_log("dynamic", 7, t_dynamic, t_serial, NTHREADS);
 
     return 0;
 }
