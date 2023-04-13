@@ -14,7 +14,6 @@ int main(int argc, char const *argv[])
     // Serial
 
     long int sum = 0;
-    long int sum_aux = 0;
     double t_start = omp_get_wtime();
 
     for (int i = 1; i <= n; i++)
@@ -31,18 +30,26 @@ int main(int argc, char const *argv[])
 
     // Critical
 
+    long int sum_aux = 0;
+
     sum = 0;
     t_start = omp_get_wtime();
 
-#pragma omp parallel for num_threads(NTHREADS) private(sum)
-    for (int i = 1; i <= n; i++)
+#pragma omp parallel num_threads(NTHREADS) private(sum)
     {
-        if (n % i == 0)
+#pragma omp for
+        for (int i = 1; i <= n; i++)
         {
-            printf("%d ", i);
-            sum += i;
+            if (n % i == 0)
+            {
+                printf("%d ", i);
+                sum_aux += i;
+            }
         }
+#pragma omp critical
+        sum += sum_aux;
     }
+
     double t_critical = omp_get_wtime() - t_critical;
     printf("sum_critical: %d\n", sum);
 
