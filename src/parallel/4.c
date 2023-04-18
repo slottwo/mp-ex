@@ -93,9 +93,10 @@ int main(int argc, char const *argv[])
 
     printf("\nserial time: %.6fs\n", t_serial);
     printf("\n----------------\n\n");
-
     statistic_log("critical", 8, t_critical, t_serial, NTHREADS);
+    printf("\n----------------\n\n");
     statistic_log("static", 6, t_static, t_serial, NTHREADS);
+    printf("\n----------------\n\n");
     statistic_log("dynamic", 7, t_dynamic, t_serial, NTHREADS);
 
     return 0;
