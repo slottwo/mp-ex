@@ -48,6 +48,15 @@ void statistic_log(char type[], int length, double t, double t_serial, int nthre
 
     printf("%s\n", type);
     printf("time: %.7fs\n", t);
-    printf("speedup: %.2f\n", (1 - t_serial / t) * 100);
+    double bonus_speed = (t_serial / t - 1) * 100;
+    if (bonus_speed < 0)
+    {
+        printf("speedup: %.2f%%\n", bonus_speed);
+    }
+    else
+    {
+        printf("speedup: +%.2f%%\n", bonus_speed);
+    }
+    // printf("speedup: %.2f\n", t_serial / t);
     printf("efficiency: %.2f\n\n", t_serial / t / nthreads);
 }

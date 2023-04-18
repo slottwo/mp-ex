@@ -27,6 +27,7 @@ int main(int argc, char const *argv[])
 
     double t_serial = omp_get_wtime() - t_start;
 
+    printf("\n     serial\n");
     printf("hi: %d\n", hi);
 
     // Parallel
@@ -34,7 +35,7 @@ int main(int argc, char const *argv[])
 
     hi = v[0];
     sub_hi = v[0];
-#pragma omp parallel num_threads(NTHREADS) private(sub_hi)
+#pragma omp parallel num_threads(NTHREADS) firstprivate(sub_hi)
     {
 #pragma omp for
         for (i = 1; i < SIZE; i++)
@@ -53,8 +54,9 @@ int main(int argc, char const *argv[])
 
     double t_parallel = omp_get_wtime() - t_start;
 
+    printf("\n    critical\n");
     printf("hi: %d\n", hi);
 
     printf("\n");
-    statistic_log("parallel", 9, t_parallel, t_serial, NTHREADS);
+    statistic_log("analysis", 8, t_parallel, t_serial, NTHREADS);
 }
