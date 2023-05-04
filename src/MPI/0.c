@@ -9,26 +9,25 @@ float *gerar_vetor(int n);
 
 int main()
 {
-
-    // Iniciando MPI
+    // Iniciando MPI.h
+    int nprocs, rank;
     MPI_Init(NULL, NULL);
-    int nprocs;
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-    int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
-
+ 
+    // Iniciando Time.h
     time_t t;
     srand(time(NULL) * rank);
-
+    
     /*
     INICIO
     */
-
+    
     /*
     FIM
     */
-
+    
     MPI_Finalize();
     return 0;
 }
