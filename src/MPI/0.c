@@ -15,19 +15,19 @@ int main()
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
- 
+
     // Iniciando Time.h
     time_t t;
     srand(time(NULL) * rank);
-    
+
     /*
     INICIO
     */
-    
+
     /*
     FIM
     */
-    
+
     MPI_Finalize();
     return 0;
 }
