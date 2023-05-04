@@ -4,6 +4,7 @@
         "omp.h": "c",
         "time.h": "c",
         "stdio.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "mpi.h": "c"
     }
 }
