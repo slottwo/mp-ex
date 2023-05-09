@@ -5,7 +5,7 @@
 
 #define MAX 100
 
-float *gerar_vetor(int n);
+float *gera_vetor(int n);
 
 int main()
 {
@@ -32,7 +32,7 @@ int main()
     return 0;
 }
 
-float *gerar_vetor(int n)
+float *gera_vetor(int n)
 {
     float *vetor;
     int i;
