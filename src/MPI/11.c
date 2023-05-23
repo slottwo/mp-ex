@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX 10
+#define MAX 10000
 
 int *gera_vetor(int n);
 
@@ -15,6 +15,12 @@ int main()
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
+
+    if (nprocs > 2 && rank == 0)
+    {
+        printf("The number of processes needs to be 2\n");
+        MPI_Abort(MPI_COMM_WORLD, 1);
+    }
 
     // Iniciando Time.h
     time_t t;
@@ -42,8 +48,11 @@ int main()
         sum += sub_vector[i];
     }
 
-    printf("Sum[%d]: %d\n", rank, sum);
-    MPI_Gather(&sum, 1, MPI_INT, sums_vector, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    if (rank < 2)
+        printf("Sum[%d]: %d\n", rank, sum);
+
+    MPI_Gather(&sum, 1, MPI_INT, sums_vector, 1,
+               MPI_INT, 0, MPI_COMM_WORLD);
 
     if (rank == 0)
     {
@@ -70,6 +79,6 @@ int *gera_vetor(int n)
         vetor[i] = num;
         printf("%d ", num);
     }
-    printf("\n");
+    printf("\n\n");
     return vetor;
 }
