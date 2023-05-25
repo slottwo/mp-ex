@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX 100
+#define MAX 10
 
 int *gera_vetor(int n);
 
@@ -16,36 +16,47 @@ int main()
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
 
-    if (nprocs > 2 && rank == 0)
-    {
-        printf("The number of processes needs to be 2\n");
-        MPI_Abort(MPI_COMM_WORLD, 1);
-    }
-
     // Iniciando Time.h
     time_t t;
-    srand(time(NULL) * rank);
+    srand(time(NULL));
 
     /*
     INICIO
     */
 
-    int *vector;
-    int *sub_vector = (int *)malloc(nprocs * sizeof(int));
-    int sub_n = MAX / nprocs;
-    float media, var, desvio;
+    int *V;
+    int N = MAX;
+    int n = MAX % nprocs == 0 ? MAX / nprocs : MAX / nprocs + 1;
+    if (rank == 0)
+    {
+        printf("n: %d\n", n); // return 0;
+    }
+    int *v = (int *)malloc(n * sizeof(int));
+    float mean, s², s;
 
     if (rank == 0)
     {
-        vector = gera_vetor(MAX);
+        V = gera_vetor(MAX);
     }
 
+    MPI_Scatter(V, n, MPI_INT, v, n, MPI_INT, 0, MPI_COMM_WORLD);
 
-    MPI_Scatter(vector, sub_n, MPI_INT, sub_vector, sub_n,
-                MPI_INT, 0, MPI_COMM_WORLD);
-    
-
-
+    for (int i = 0; i < nprocs; i++)
+    {
+        if (rank == i)
+        {
+            printf("Rank %d:\n", i);
+            for (int j = 0; j < n; j++)
+            {
+                printf(" %d", v[j]);
+                if((N - n * (i-1)) - n > 0) {
+                    printf("!");
+                }
+            }
+            printf("\n");
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
     /*
     FIM
     */

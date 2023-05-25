@@ -24,7 +24,7 @@ int main()
 
     // Iniciando Time.h
     time_t t;
-    srand(time(NULL) * rank);
+    srand(time(NULL));
 
     /*
     INICIO
