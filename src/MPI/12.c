@@ -42,28 +42,19 @@ int main()
 
     MPI_Scatter(V, n, MPI_INT, v, n, MPI_INT, 0, MPI_COMM_WORLD);
 
-    for (int i = 0; i < nprocs; i++)
+    int j, t = N - n * rank;
+    for (j = 0; j < n; j++)
     {
-        if (rank == i)
+        if (t - j > 0)
         {
-            printf("Rank %d:\n", i);
-            int j, t = N - n * rank;
-            for (j = 0; j < n; j++)
-            {
-                if (t - j > 0)
-                {
-                    mean += v[j];
-                    printf(" %d", v[j]);
-                }
-                else
-                    break;
-            }
-            mean /= j;
-            printf("\nmean: %.2f\n", mean);
+            mean += v[j];
+            printf(" %d", v[j]);
         }
-        MPI_Barrier(MPI_COMM_WORLD);
+        else
+            break;
     }
-
+    mean /= j;
+    
     /*
     FIM
     */
