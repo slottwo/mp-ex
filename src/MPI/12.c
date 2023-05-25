@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX 10
+#define MAX 20
 
 int *gera_vetor(int n);
 
@@ -29,13 +29,14 @@ int main()
     int n = MAX % nprocs == 0 ? MAX / nprocs : MAX / nprocs + 1;
     if (rank == 0)
     {
-        printf("n: %d\n", n); // return 0;
+        printf("N: %d; n: %d\n", N, n); // return 0;
     }
     int *v = (int *)malloc(n * sizeof(int));
-    float mean, s², s;
+    double mean, s², s;
 
     if (rank == 0)
     {
+        printf("V: ");
         V = gera_vetor(MAX);
     }
 
@@ -46,17 +47,23 @@ int main()
         if (rank == i)
         {
             printf("Rank %d:\n", i);
-            for (int j = 0; j < n; j++)
+            int j, t = N - n * rank;
+            for (j = 0; j < n; j++)
             {
-                if ((N - n * (i - 1)) - n - j > 0)
+                if (t - j > 0)
                 {
+                    mean += v[j];
                     printf(" %d", v[j]);
                 }
+                else
+                    break;
             }
-            printf("\n");
+            mean /= j;
+            printf("\nmean: %.2f\n", mean);
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }
+
     /*
     FIM
     */
