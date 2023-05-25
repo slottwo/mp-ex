@@ -48,9 +48,9 @@ int main()
             printf("Rank %d:\n", i);
             for (int j = 0; j < n; j++)
             {
-                printf(" %d", v[j]);
-                if((N - n * (i-1)) - n > 0) {
-                    printf("!");
+                if ((N - n * (i - 1)) - n - j > 0)
+                {
+                    printf(" %d", v[j]);
                 }
             }
             printf("\n");
