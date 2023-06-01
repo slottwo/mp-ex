@@ -32,16 +32,21 @@ int main()
     */
 
     int *b, ones = 0;
+    int n = MAX % nprocs == 0 ? MAX / nprocs : MAX / nprocs + 1;
 
-    if (!rank) {
+    if (!rank)
+    {
         b = gen_bin(MAX);
     }
-    
+
     MPI_Bcast(b, MAX, MPI_INT, 0, MPI_COMM_WORLD);
 
-    for (int i = 0; i < MAX; i++)
+    for (int i = rank * n; i < (1 + rank) * n; i++)
     {
-        ones += b[i];
+        if (i < MAX)
+        {
+            ones += b[i];
+        }          
     }
 
     b = realloc(b, sizeof(int) * (MAX + 1));
