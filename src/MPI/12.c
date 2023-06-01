@@ -32,7 +32,9 @@ int main()
         printf("N: %d; n: %d\n", N, n); // return 0;
     }
     int *v = (int *)malloc(n * sizeof(int));
-    double mean, s², s;
+    double mean = 0;
+    double mean_ = 0;
+    double s², s;
 
     if (rank == 0)
     {
@@ -42,19 +44,25 @@ int main()
 
     MPI_Scatter(V, n, MPI_INT, v, n, MPI_INT, 0, MPI_COMM_WORLD);
 
-    int j, t = N - n * rank;
-    for (j = 0; j < n; j++)
+    int x = N - n * rank;
+    for (int j = 0; j < n; j++)
     {
-        if (t - j > 0)
+        if (x - j > 0)
         {
-            mean += v[j];
+            mean_ += v[j];
             printf(" %d", v[j]);
         }
         else
             break;
     }
-    mean /= j;
-    
+
+    MPI_Reduce(&mean_, &mean, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    if (rank == 0)
+    {
+        mean /= N;
+    }
+
     /*
     FIM
     */
