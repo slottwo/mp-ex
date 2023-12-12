@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "../../lib/headers/generators.h"
 
 int main(int argc, char const *argv[])
 {
@@ -21,5 +22,7 @@ int main(int argc, char const *argv[])
 
     t_parallel = omp_get_wtime() - t_start;
 
-    
+    statistic_log("s", t_serial, t_parallel, 1);
+
+    return 0;
 }

@@ -39,24 +39,26 @@ int gen_int(int min, int max)
     return rand() % max + min;
 }
 
-void statistic_log(char type[], int length, double t, double t_serial, int nthreads)
+void statistic_log(char type[], double t, double t_serial, int nthreads)
 {
-    for (int i = 0; i < (16 - length) / 2; i++)
-    {
-        printf(" ");
-    }
+    printf("================\n");
+
+    // int tab = (17 - sizeof(type) / sizeof(type[0])) / 2;
+    printf("%s\n", type[0]);
+    // for (int i = 0; i < tab; i++)
+    // {
+    //     printf(" ");
+    // }
 
     printf("%s\n", type);
+
     printf("time: %.7fs\n", t);
-    double bonus_speed = (t_serial / t - 1) * 100;
-    if (bonus_speed < 0)
-    {
-        printf("speedup: %.2f%%\n", bonus_speed);
-    }
-    else
-    {
-        printf("speedup: +%.2f%%\n", bonus_speed);
-    }
+    
+    double bonus = (t_serial / t - 1) * 100;
+    printf("speedup: %s%.2f%%\n", bonus > 0 ? "+" : "", bonus);
+    
     // printf("speedup: %.2f\n", t_serial / t);
-    printf("efficiency: %.2f\n\n", t_serial / t / nthreads);
+    
+    printf("efficiency: %.2f\n", t_serial / t / nthreads);
+    printf("================\n");
 }
