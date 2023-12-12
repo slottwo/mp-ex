@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 
     t_parallel = omp_get_wtime() - t_start;
 
-    statistic_log("PARALLEL", t_serial, t_parallel, 1);
+    statistic_log(t_serial, t_parallel, 1);
 
     return 0;
 }

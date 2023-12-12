@@ -39,32 +39,15 @@ int gen_int(int min, int max)
     return rand() % max + min;
 }
 
-void statistic_log(char title[], double t, double t_serial, int nthreads)
+void statistic_log(double t, double t_serial, int nthreads)
 {
-    printf("================\n");
-
-    int i = 0;
-    while (title[i] != '\0')
-        i++;
-
-    i = 8 - i / 2;
-
-    while (i)
-    {
-        printf(" ");
-        i--;
-    }
-    
-
-    printf("%s\n", title);
-
-    printf("time: %.7fs\n", t);
+    printf("serial:    %.3fµs\n", t_serial * 1000000);
+    printf("parallel:  %.3fµs\n", t * 1000000);
 
     double bonus = (t_serial / t - 1) * 100;
-    printf("speedup: %s%.2f%%\n", bonus > 0 ? "+" : "", bonus);
+    printf("speedup:   %s%.2f%%\n", bonus > 0 ? "+" : "", bonus);
 
     // printf("speedup: %.2f\n", t_serial / t);
 
-    printf("efficiency: %.2f\n", t_serial / t / nthreads);
-    printf("================\n");
+    printf("efficiency:  %.3f\n", t_serial / t / nthreads);
 }
