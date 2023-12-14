@@ -5,13 +5,13 @@
 #include "../../lib/headers/generators.h"
 
 #define MAX 9999
-#define SIZE 1000000000
+#define SIZE 500000
 
 int main(int argc, char const *argv[])
 {
     int NTHREADS = omp_get_num_procs() / 2;
     
-    int *v = (int*)malloc(MAX*sizeof(int));
+    int *v = (int*)malloc(SIZE*sizeof(int));
     gen_vector_int(v, 0, MAX, SIZE);
 
     int target = gen_int(0, MAX);
@@ -43,10 +43,12 @@ int main(int argc, char const *argv[])
 
     #pragma omp parallel num_threads(NTHREADS)
     {
-        #pragma omp for
+        #pragma omp for reduction (+:count)
         for (int i = 0; i < SIZE; i++)
+        {
             if (v[i] == target)
                 count++;
+        }
     }
 
     t_parallel = omp_get_wtime() - t_start;
