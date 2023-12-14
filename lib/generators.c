@@ -8,7 +8,7 @@ void gen_vector_zto(double *v, int size)
 {
     time_t t;
     srand((unsigned)time(&t));
-    
+
     int NTHREADS = omp_get_num_procs() / 2;
 
 #pragma omp parallel num_threads(NTHREADS)
@@ -45,14 +45,11 @@ int gen_int(int min, int max)
 
 void statistic_log(double t, double t_serial, int nthreads)
 {
-    printf("\n");
-    printf("serial:    %.3fµs\n", t_serial * 1000000);
-    printf("parallel:  %.3fµs\n", t * 1000000);
-
     double bonus = (t_serial / t - 1) * 100;
-    printf("speedup:   %s%.2f%%\n", bonus > 0 ? "+" : "", bonus);
 
-    // printf("speedup: %.2f\n", t_serial / t);
-
-    printf("efficiency:  %.3f\n", t_serial / t / nthreads);
+    printf("\n");
+    printf("    serial: %.3fµs\n", t_serial * 1000000);
+    printf("  parallel: %.3fµs\n", t * 1000000);
+    printf("   speedup: %s%.2f%%\n", bonus > 0 ? "+" : "", bonus);
+    printf("efficiency: %.3f\n", t_serial / t / nthreads);
 }
