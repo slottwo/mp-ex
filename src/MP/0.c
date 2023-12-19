@@ -7,7 +7,7 @@
 int main(int argc, char const *argv[])
 {
     int NTHREADS = omp_get_num_procs() / 2;
-    
+
     double t_start, t_serial, t_parallel;
 
     // Serial
@@ -19,6 +19,8 @@ int main(int argc, char const *argv[])
     // Parallel
 
     t_start = omp_get_wtime();
+
+#pragma omp parallel num_threads(NTHREADS)
 
     t_parallel = omp_get_wtime() - t_start;
 
