@@ -78,10 +78,10 @@ void statistic_log(double t_serial, double t_parallel, int nthreads)
 
 
     printf("\nlog:\n");
-    printf("  t_serial : %.0fµs\n", t_serial * 1000000);
-    printf("t_parallel : %.0fµs\n", t_parallel * 1000000);
+    printf("  t_serial : %.4f\n", t_serial);
+    printf("t_parallel : %.4f\n", t_parallel);
     printf("num_thread : %d\n", nthreads);
-    printf("   speedup : %.3f\n", t_serial / t_parallel);
-    printf("      gain : %.2f%%\n", bonus);
-    printf("efficiency : %.3f\n", (t_serial / t_parallel) / (double)nthreads);
+    printf("   speedup : %.4f\n", t_serial / t_parallel);
+    printf("      diff : %.2f %%\n", bonus);
+    printf("efficiency : %.3f %%\n", 100.0 * (t_serial / t_parallel) / (double)nthreads);
 }
