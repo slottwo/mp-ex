@@ -21,7 +21,9 @@ int main(int argc, char const *argv[])
     t_start = omp_get_wtime();
 
 #pragma omp parallel num_threads(NTHREADS)
-
+    {
+    }
+    
     t_parallel = omp_get_wtime() - t_start;
 
     statistic_log(t_serial, t_parallel, NTHREADS);

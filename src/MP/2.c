@@ -36,10 +36,12 @@ int main(int argc, char const *argv[])
     t_start = omp_get_wtime();
 
 #pragma omp parallel num_threads(NTHREADS)
-#pragma omp for reduction(+ : sum)
-    for (int i = 0; i < SIZE; i++)
     {
-        sum += v[i];
+#pragma omp for reduction(+ : sum)
+        for (int i = 0; i < SIZE; i++)
+        {
+            sum += v[i];
+        }
     }
 
     t_parallel = omp_get_wtime() - t_start;
