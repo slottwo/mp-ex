@@ -4,7 +4,7 @@
 #include <time.h>
 #include "../../lib/headers/generators.h"
 
-#define N 300000000
+#define N 500000000
 
 int main(int argc, char const *argv[])
 {
