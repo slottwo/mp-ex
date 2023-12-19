@@ -14,21 +14,31 @@ int main(int argc, char const *argv[])
     double *v = (double*)malloc(SIZE*sizeof(double));
     gen_vector(v, 0, MAX, SIZE);
 
-    double t_start, t_serial, t_parallel;
+    double t_start, t_serial, t_parallel, sum = 0;
 
     // Serial
 
-    
-
     t_start = omp_get_wtime();
 
-    
+    for(int i = 0; i < SIZE; i++)
+    {
+        sum += v[i];
+    }
 
     t_serial = omp_get_wtime() - t_start;
 
     // Parallel
 
+    sum = 0;
+
     t_start = omp_get_wtime();
+
+    #pragma omp parallel nthreads(NTHREADS)
+    #pragma omp for reduction(+:sum)
+    for(int i = 0; i < SIZE; i++)
+    {
+        sum += v[i];
+    }
 
     t_parallel = omp_get_wtime() - t_start;
 
