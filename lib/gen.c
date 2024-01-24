@@ -2,14 +2,17 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "gen.h"
 
-
-void gen_vector(double *v, double min, double max, int size)
+void gen_init()
 {
     time_t t;
     srand((unsigned)time(&t));
+}
 
+void gen_vector(double *v, double min, double max, int size)
+{
     int NTHREADS = omp_get_num_procs() / 2;
 
 #pragma omp parallel num_threads(NTHREADS)
@@ -24,9 +27,6 @@ void gen_vector(double *v, double min, double max, int size)
 
 void gen_vector_zto(double *v, int size)
 {
-    time_t t;
-    srand((unsigned)time(&t));
-
     int NTHREADS = omp_get_num_procs() / 2;
 
 #pragma omp parallel num_threads(NTHREADS)
@@ -41,9 +41,6 @@ void gen_vector_zto(double *v, int size)
 
 void gen_vector_int(int *v, int min, int max, int size)
 {
-    time_t t;
-    srand((unsigned)time(&t));
-
     int NTHREADS = omp_get_num_procs() / 2;
 
 #pragma omp parallel num_threads(NTHREADS)
@@ -58,24 +55,18 @@ void gen_vector_int(int *v, int min, int max, int size)
 
 int gen_int(int min, int max)
 {
-    time_t t;
-    srand((unsigned)time(&t));
-
+    max -= min;
     return rand() % max + min;
 }
 
 double gen_rand(double max)
 {
-    time_t t;
-    srand((unsigned)time(&t));
-
     return (rand() / (double)RAND_MAX) * max;
 }
 
 void statistic_log(double t_serial, double t_parallel, int nthreads)
 {
     double bonus = (t_serial / t_parallel - 1) * 100;
-
 
     printf("\nlog:\n");
     printf("  t_serial : %.4f\n", t_serial);

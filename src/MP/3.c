@@ -1,13 +1,15 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include "../../lib/generators.h"
+
+#include "../../lib/gen.h"
 
 #define N 500000000
 
 int main(int argc, char const *argv[])
 {
+    gen_init();
+
     int NTHREADS = omp_get_num_procs() / 2;
 
     double t_start, t_serial, t_parallel, x, dx, pi, sum = 0;

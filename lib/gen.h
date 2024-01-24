@@ -1,7 +1,8 @@
 #ifndef GEN_H
 #define GEN_H
 
-double gen(double);
+void gen_init();
+double gen_rand(double);
 int gen_int(int, int);
 void gen_vector(double *, double, double, int);
 void gen_vector_zto(double *, int);

@@ -1,13 +1,15 @@
-if [ -f bin/"$1" ]; then
-    rm bin/"$1"
+if [ ! -d "bin" ]; then
+    mkdir bin
 fi
 
-gcc -fopenmp -c lib/generators.c
-gcc -fopenmp -c src/MP/$1.c
+cd bin
 
-gcc -fopenmp *.o -o bin/$1
+gcc -fopenmp -c ../lib/gen.c
+gcc -fopenmp -c ../src/MP/$1.c
+
+gcc -fopenmp *.o -o $1
 rm *.o
 
-if [ -f bin/"$1" ]; then
-    ./bin/"$1"
+if [ -f "$1" ]; then
+    ./"$1"
 fi

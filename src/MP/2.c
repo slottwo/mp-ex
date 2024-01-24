@@ -1,5 +1,4 @@
 #include <omp.h>
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,6 +9,8 @@
 
 int main(int argc, char const *argv[])
 {
+    gen_init();
+
     int NTHREADS = omp_get_num_procs() / 2;
 
     double *v = (double *)malloc(SIZE * sizeof(double));
