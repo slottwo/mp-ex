@@ -4,30 +4,52 @@
 #include <stdlib.h>
 #include "headers/generators.h"
 
-void gen_vector_zto(double *v)
+
+void gen_vector(double *v, double min, double max, int size)
 {
     time_t t;
     srand((unsigned)time(&t));
 
-#pragma omp parallel num_threads(3)
+    int NTHREADS = omp_get_num_procs() / 2;
+
+#pragma omp parallel num_threads(NTHREADS)
     {
 #pragma omp for
-        for (int i = 0; i < SIZE; i++)
+        for (int i = 0; i < size; i++)
+        {
+            v[i] = min + (max - min) * (rand() / (double)RAND_MAX);
+        }
+    }
+}
+
+void gen_vector_zto(double *v, int size)
+{
+    time_t t;
+    srand((unsigned)time(&t));
+
+    int NTHREADS = omp_get_num_procs() / 2;
+
+#pragma omp parallel num_threads(NTHREADS)
+    {
+#pragma omp for
+        for (int i = 0; i < size; i++)
         {
             v[i] = (rand() / (double)RAND_MAX);
         }
     }
 }
 
-void gen_vector_int(int *v, int min, int max)
+void gen_vector_int(int *v, int min, int max, int size)
 {
     time_t t;
     srand((unsigned)time(&t));
 
-#pragma omp parallel num_threads(3)
+    int NTHREADS = omp_get_num_procs() / 2;
+
+#pragma omp parallel num_threads(NTHREADS)
     {
 #pragma omp for
-        for (int i = 0; i < SIZE; i++)
+        for (int i = 0; i < size; i++)
         {
             v[i] = (rand() % max + min);
         }
@@ -36,27 +58,30 @@ void gen_vector_int(int *v, int min, int max)
 
 int gen_int(int min, int max)
 {
+    time_t t;
+    srand((unsigned)time(&t));
+
     return rand() % max + min;
 }
 
-void statistic_log(char type[], int length, double t, double t_serial, int nthreads)
+double gen_rand(double max)
 {
-    for (int i = 0; i < (16 - length) / 2; i++)
-    {
-        printf(" ");
-    }
+    time_t t;
+    srand((unsigned)time(&t));
 
-    printf("%s\n", type);
-    printf("time: %.7fs\n", t);
-    double bonus_speed = (t_serial / t - 1) * 100;
-    if (bonus_speed < 0)
-    {
-        printf("speedup: %.2f%%\n", bonus_speed);
-    }
-    else
-    {
-        printf("speedup: +%.2f%%\n", bonus_speed);
-    }
-    // printf("speedup: %.2f\n", t_serial / t);
-    printf("efficiency: %.2f\n\n", t_serial / t / nthreads);
+    return (rand() / (double)RAND_MAX) * max;
+}
+
+void statistic_log(double t_serial, double t_parallel, int nthreads)
+{
+    double bonus = (t_serial / t_parallel - 1) * 100;
+
+
+    printf("\nlog:\n");
+    printf("  t_serial : %.4f\n", t_serial);
+    printf("t_parallel : %.4f\n", t_parallel);
+    printf("num_thread : %d\n", nthreads);
+    printf("   speedup : %.4f\n", t_serial / t_parallel);
+    printf("      diff : %.2f %%\n", bonus);
+    printf("efficiency : %.3f %%\n", 100.0 * (t_serial / t_parallel) / (double)nthreads);
 }
