@@ -1,8 +1,9 @@
 #include <omp.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include "../../lib/headers/generators.h"
+
+#include "../../lib/gen.h"
 
 #define MAX 9999
 #define SIZE 100000000

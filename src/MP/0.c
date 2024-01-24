@@ -1,8 +1,9 @@
 #include <omp.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include "../../lib/headers/generators.h"
+
+#include "../../lib/gen.h"
 
 int main(int argc, char const *argv[])
 {

@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "headers/generators.h"
+#include "gen.h"
 
 
 void gen_vector(double *v, double min, double max, int size)

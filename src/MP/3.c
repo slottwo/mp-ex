@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../../lib/headers/generators.h"
+#include "../../lib/generators.h"
 
 #define N 500000000
 
