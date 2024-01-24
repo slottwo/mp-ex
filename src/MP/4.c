@@ -14,22 +14,9 @@ int main(int argc, char const *argv[])
 
     double t_start, t_serial, t_parallel;
 
-    // unsigned long long int sum = 0, num = gen_int(MIN, __INT_MAX__ - 1);
-    int x;
-    for (int i = 0; i < MIN; i++)
-    {
-        x = gen_int(MIN, __INT_MAX__);
-        if (x >= __INT_MAX__ || x < 0)
-        {
-            printf(":c\n");
-        }
-        if (x == __INT_MAX__)
-        {
-            printf(":o\n");
-        }
-    }
+    unsigned long long int sum = 0;
+    unsigned long long int num = gen_int(MIN, __INT_MAX__);
 
-    return 0;
     // Serial
 
     t_start = omp_get_wtime();

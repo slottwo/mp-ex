@@ -55,8 +55,10 @@ void gen_vector_int(int *v, int min, int max, int size)
 
 int gen_int(int min, int max)
 {
-    max -= min;
-    return rand() % max + min;
+    if (max == RAND_MAX)
+        return rand() % (max - (min - 1)) + min;
+
+    return rand() % (max - min + 1) + min;
 }
 
 double gen_rand(double max)
