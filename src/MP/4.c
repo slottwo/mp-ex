@@ -21,17 +21,34 @@ int main(int argc, char const *argv[])
 
     t_start = omp_get_wtime();
 
+    for (int i = 1; i <= num; i++)
+        if (num % i == 0)
+            sum += i;
+
     t_serial = omp_get_wtime() - t_start;
 
+    printf("sum: %llu\n", sum);
+
     // Parallel
+
+    sum = 0;
 
     t_start = omp_get_wtime();
 
 #pragma omp parallel num_threads(NTHREADS)
     {
+        unsigned long long int sub_sum = 0;
+#pragma omp for
+        for (int i = 1; i <= num; i++)
+            if (num % i == 0)
+                sub_sum += i;
+#pragma omp barrier
+        sum += sub_sum;
     }
 
     t_parallel = omp_get_wtime() - t_start;
+
+    printf("sum: %llu\n", sum);
 
     statistic_log(t_serial, t_parallel, NTHREADS);
 
