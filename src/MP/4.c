@@ -37,13 +37,13 @@ int main(int argc, char const *argv[])
 
 #pragma omp parallel num_threads(NTHREADS)
     {
-        unsigned long long int sub_sum = 0;
 #pragma omp for
         for (int i = 1; i <= num; i++)
             if (num % i == 0)
-                sub_sum += i;
-#pragma omp barrier
-        sum += sub_sum;
+            {
+#pragma omp atomic
+                sum += i;
+            }
     }
 
     t_parallel = omp_get_wtime() - t_start;
