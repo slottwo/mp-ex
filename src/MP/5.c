@@ -21,7 +21,7 @@ bilhão, calcular a soma de todos os seus divisores.
 
   - Redução com for dinâmico
 
-- Quais variáveis são compartilhadas entre as threads, e quais são privadas ?
+- Quais variáveis são compartilhadas entre as threads, e quais são privadas?
 
 */
 
@@ -36,46 +36,82 @@ int main(int argc, char const *argv[])
     unsigned long long int sum = 0;
     unsigned long long int num = gen_int(MIN, __INT_MAX__);
 
+    printf("       num : %llu\n\n", num);
+
     // Serial
 
     t_start = omp_get_wtime();
 
+    for (int i = 1; i <= num; i++)
+        if (num % i == 0)
+            sum += i;
+
     t_serial = omp_get_wtime() - t_start;
 
+    printf("  s_serial : %llu\n", sum);
+
     // Critical
+
+    sum = 0;
 
     t_start = omp_get_wtime();
 
 #pragma omp parallel num_threads(NTHREADS)
     {
+        for (int i = omp_get_thread_num() + 1; i <= num; i += NTHREADS)
+            if (num % i == 0)
+            {
+#pragma omp critical
+                {
+                    sum += i;
+                }
+            }
     }
 
     t_critical = omp_get_wtime() - t_start;
 
+    printf("s_critical : %llu\n", sum);
+
     // Static
+
+    sum = 0;
 
     t_start = omp_get_wtime();
 
 #pragma omp parallel num_threads(NTHREADS)
     {
+#pragma omp for schedule(static) reduction(+ : sum)
+        for (int i = 1; i <= num; i++)
+            if (num % i == 0)
+                sum += i;
     }
 
     t_static = omp_get_wtime() - t_start;
 
+    printf("  s_static : %llu\n", sum);
+
     // Dynamic
+
+    sum = 0;
 
     t_start = omp_get_wtime();
 
 #pragma omp parallel num_threads(NTHREADS)
     {
+#pragma omp for schedule(dynamic) reduction(+ : sum)
+        for (int i = 1; i <= num; i++)
+            if (num % i == 0)
+                sum += i;
     }
 
     t_dynamic = omp_get_wtime() - t_start;
 
+    printf(" s_dynamic : %llu\n", sum);
+
     double bonus = (t_serial / t_dynamic - 1) * 100;
 
-    printf("\nlog:\n");
-    printf("num_thread : %d\n", NTHREADS);
+    printf("\n\tmulti-log\n");
+    printf("  n_thread : %d\n", NTHREADS);
     printf("  t_serial : %.4f\n", t_serial);
 
     printf("\nt_critical : %.4f\n", t_critical);
