@@ -4,9 +4,30 @@
 
 #include "../../lib/gen.h"
 
+#define SIZE 1000000000
+#define MIN 1
+#define MAX 1000000000
+
+/*
+
+Atividade 4.
+
+2) Escreva um programa serial e paralelo em C, com OpenMP, que dado um vetor de
+inteiros e um valor x, encontrar quantas vezes x ocorre no vetor. Calcular as
+métricas de desempenho.
+
+*/
+
 int main(int argc, char const *argv[])
 {
     gen_init();
+
+    int count = 0;
+    int target = gen_int(MIN, MAX);
+    int *vector = (int *)malloc(sizeof(int) * SIZE);
+    gen_vector_int(vector, SIZE, MIN, MAX);
+
+    printf("target : %d\n", target);
 
     int NTHREADS = omp_get_num_procs() / 2;
 
@@ -16,6 +37,9 @@ int main(int argc, char const *argv[])
 
     t_start = omp_get_wtime();
 
+    for (int i = 0; i < SIZE; i++)
+        count += vector[i] == target;
+
     t_serial = omp_get_wtime() - t_start;
 
     // Parallel
@@ -24,11 +48,16 @@ int main(int argc, char const *argv[])
 
 #pragma omp parallel num_threads(NTHREADS)
     {
+#pragma omp for reduction(+ : count)
+        for (int i = 0; i < SIZE; i++)
+            count += vector[i] == target;
     }
-    
+
     t_parallel = omp_get_wtime() - t_start;
 
     statistic_log(t_serial, t_parallel, NTHREADS);
+
+    free(vector);
 
     return 0;
 }
