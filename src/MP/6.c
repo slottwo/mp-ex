@@ -6,7 +6,7 @@
 
 #define SIZE 1000000000
 #define MIN 1
-#define MAX 1000000000
+#define MAX 1000000
 
 /*
 
@@ -22,12 +22,12 @@ int main(int argc, char const *argv[])
 {
     gen_init();
 
-    int count = 0;
-    int target = gen_int(MIN, MAX);
-    int *vector = (int *)malloc(sizeof(int) * SIZE);
-    gen_vector_int(vector, SIZE, MIN, MAX);
+    int count, target = gen_int(MIN, MAX);
 
     printf("target : %d\n", target);
+
+    int *vector = (int *)malloc(sizeof(int) * SIZE);
+    gen_vector_int(vector, SIZE, MIN, MAX);
 
     int NTHREADS = omp_get_num_procs() / 2;
 
@@ -35,14 +35,21 @@ int main(int argc, char const *argv[])
 
     // Serial
 
+    count = 0;
+
     t_start = omp_get_wtime();
 
     for (int i = 0; i < SIZE; i++)
-        count += vector[i] == target;
+        if (vector[i] == target)
+            count++;
 
     t_serial = omp_get_wtime() - t_start;
 
+    printf("count: %d\n", count);
+
     // Parallel
+
+    count = 0;
 
     t_start = omp_get_wtime();
 
@@ -50,10 +57,13 @@ int main(int argc, char const *argv[])
     {
 #pragma omp for reduction(+ : count)
         for (int i = 0; i < SIZE; i++)
-            count += vector[i] == target;
+            if (vector[i] == target)
+                count++;
     }
 
     t_parallel = omp_get_wtime() - t_start;
+
+    printf("count: %d\n", count);
 
     statistic_log(t_serial, t_parallel, NTHREADS);
 
