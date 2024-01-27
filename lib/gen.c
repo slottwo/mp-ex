@@ -41,9 +41,7 @@ void gen_vector(double *v, int size, double min, double max)
     {
 #pragma omp for
         for (int i = 0; i < size; i++)
-        {
             v[i] = min + (max - min) * (rand() / (double)RAND_MAX);
-        }
     }
 }
 
@@ -61,9 +59,7 @@ void gen_vector_zto(double *v, int size)
     {
 #pragma omp for
         for (int i = 0; i < size; i++)
-        {
             v[i] = (rand() / (double)RAND_MAX);
-        }
     }
 }
 
@@ -83,30 +79,25 @@ void gen_vector_int(int *v, int size, int min, int max)
     {
 #pragma omp for
         for (int i = 0; i < size; i++)
-        {
-            v[i] = (rand() % max + min);
-        }
+            v[i] = rand() % (max - (min - 1)) + min;
     }
 }
 
 /**
  * @brief Gen a random integer value
- * 
+ *
  * @param min Minimum value
  * @param max Maximum value
  * @return `int` – Generated value
  */
 int gen_int(int min, int max)
 {
-    if (max == RAND_MAX)
-        return rand() % (max - (min - 1)) + min;
-
-    return rand() % (max - min + 1) + min;
+    return rand() % (max - (min - 1)) + min; // don't modify parentheses
 }
 
 /**
  * @brief Gen a random floating point between `0` and `max`
- * 
+ *
  * @param max Maximum value
  * @return `double` – Generated value
  */
