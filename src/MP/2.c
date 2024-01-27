@@ -48,6 +48,8 @@ int main(int argc, char const *argv[])
 
     t_parallel = omp_get_wtime() - t_start;
 
+    free(v);
+
     printf("sum: %f\n", sum);
 
     statistic_log(t_serial, t_parallel, NTHREADS);

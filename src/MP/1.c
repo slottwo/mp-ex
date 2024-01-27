@@ -59,6 +59,8 @@ int main(int argc, char const *argv[])
 
     // End
 
+    free(v);
+
     printf("count: %d\n", count);
 
     statistic_log(t_serial, t_parallel, NTHREADS);

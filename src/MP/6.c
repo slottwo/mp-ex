@@ -63,11 +63,11 @@ int main(int argc, char const *argv[])
 
     t_parallel = omp_get_wtime() - t_start;
 
+    free(vector);
+
     printf("count: %d\n", count);
 
     statistic_log(t_serial, t_parallel, NTHREADS);
-
-    free(vector);
 
     return 0;
 }

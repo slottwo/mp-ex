@@ -28,6 +28,10 @@ int main(int argc, char const *argv[])
     
     t_parallel = omp_get_wtime() - t_start;
 
+    // End
+
+    // free(vector);
+
     statistic_log(t_serial, t_parallel, NTHREADS);
 
     return 0;
