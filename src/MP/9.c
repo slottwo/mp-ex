@@ -5,7 +5,7 @@
 
 #include "../../lib/gen.h"
 
-#define SIZE 1000000000
+#define SIZE 10000000000
 
 int main(int argc, char const *argv[])
 {

@@ -62,9 +62,7 @@ int main(int argc, char const *argv[])
             if (num % i == 0)
             {
 #pragma omp critical
-                {
-                    sum += i;
-                }
+                sum += i;
             }
     }
 

@@ -35,7 +35,7 @@ void gen_init()
  */
 void gen_vector(double *v, int size, double min, double max)
 {
-    int NTHREADS = omp_get_num_procs() / 2;
+    int NTHREADS = omp_get_num_procs();
 
 #pragma omp parallel num_threads(NTHREADS)
     {
@@ -53,7 +53,7 @@ void gen_vector(double *v, int size, double min, double max)
  */
 void gen_vector_zto(double *v, int size)
 {
-    int NTHREADS = omp_get_num_procs() / 2;
+    int NTHREADS = omp_get_num_procs();
 
 #pragma omp parallel num_threads(NTHREADS)
     {
@@ -73,7 +73,7 @@ void gen_vector_zto(double *v, int size)
  */
 void gen_vector_int(int *v, int size, int min, int max)
 {
-    int NTHREADS = omp_get_num_procs() / 2;
+    int NTHREADS = omp_get_num_procs();
 
 #pragma omp parallel num_threads(NTHREADS)
     {

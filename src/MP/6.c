@@ -24,12 +24,12 @@ int main(int argc, char const *argv[])
 
     int count, target = gen_int(MIN, MAX);
 
-    printf("target : %d\n", target);
+    printf("target : %d\n\n", target);
 
     int *vector = (int *)malloc(sizeof(int) * SIZE);
     gen_vector_int(vector, SIZE, MIN, MAX);
 
-    int NTHREADS = omp_get_num_procs() / 2;
+    int NTHREADS = omp_get_num_procs();
 
     double t_start, t_serial, t_parallel;
 
