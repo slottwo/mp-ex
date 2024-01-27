@@ -4,13 +4,13 @@
 
 #include "../../lib/gen.h"
 
-#define SIZE 100000000
+#define SIZE 1000000000
 
 int main(int argc, char const *argv[])
 {
     gen_init();
 
-    int Max = -1, max = -1, index, Index;
+    int sub_max = -1, max = -1, sub_i, index;
 
     int *vector = (int *)malloc(SIZE * sizeof(int));
     gen_vector_int(vector, SIZE, 0, RAND_MAX);
@@ -37,34 +37,35 @@ int main(int argc, char const *argv[])
 
     // Parallel
 
-    max = -1; index = -1;
+    max = -1;
+    index = -1;
 
     t_start = omp_get_wtime();
 
-#pragma omp parallel private(max, index) num_threads(NTHREADS)
+#pragma omp parallel private(sub_max, sub_i) num_threads(NTHREADS)
     {
 #pragma omp for
         for (int i = 0; i < SIZE; i++)
-            if (vector[i] > max)
+            if (vector[i] > sub_max)
             {
-                max = vector[i];
-                index = i;
+                sub_max = vector[i];
+                sub_i = i;
             }
 
 #pragma omp critical
-        {
-            if (max > Max)
+            if (max < sub_max)
             {
-                Max = max;
-                Index = index;
+                max = sub_max;
+                index = sub_i;
             }
-        }
     }
 
     t_parallel = omp_get_wtime() - t_start;
 
-    printf("m_critical : %d\n", Max);
-    printf("i_critical : %d\n", Index);
+    free(vector);
+
+    printf("\nm_critical : %d\n", max);
+    printf("i_critical : %d\n", index);
 
     statistic_log(t_serial, t_parallel, NTHREADS);
 
