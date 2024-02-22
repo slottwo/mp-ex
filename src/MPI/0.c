@@ -1,3 +1,14 @@
+/**
+ * @file 0.c
+ * @author slottwo (41028091+slottwo@users.noreply.github.com)
+ * @brief Source code model for parallel computing programs using MPI
+ * @version 0.1
+ * @date 2024-02-22
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
