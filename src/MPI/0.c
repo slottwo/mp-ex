@@ -3,9 +3,15 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX 100
+#define N 1000000
 
-float *gera_vetor(int n);
+/**
+ * @brief Returns a array of random values between 0 and 1
+ * 
+ * @param size 
+ * @return double* 
+ */
+double *gen(int size);
 
 int main()
 {
@@ -17,8 +23,11 @@ int main()
     MPI_Status status;
 
     // Iniciando Time.h
-    time_t t;
     srand(time(NULL) * rank);
+
+    double t_init;
+    if (rank == 0)
+        t_init = MPI_Wtime();
 
     /*
     INICIO
@@ -28,19 +37,23 @@ int main()
     FIM
     */
 
+    if (rank == 0)
+        printf("Δt = %.3f ms", (MPI_Wtime() - t_init) * 1000);
+
     MPI_Finalize();
     return 0;
 }
 
-float *gera_vetor(int n)
+double *gen(int size)
 {
-    float *vetor;
-    int i;
-    vetor = (float *)malloc(sizeof(float) * n);
-    for (i = 0; i < n; i++)
+    double *v;
+    v = (double *)malloc(sizeof(double) * size);
+
+    for (int i = 0; i < size; i++)
     {
-        float num = (rand() / (float)RAND_MAX);
-        vetor[i] = num;
+        double num = (rand() / (double)RAND_MAX);
+        v[i] = num;
     }
-    return vetor;
+
+    return v;
 }
