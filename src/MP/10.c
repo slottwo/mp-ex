@@ -43,7 +43,7 @@ int main(int argc, char const *argv[])
 
 #pragma omp parallel num_threads(NTHREADS)
     {
-#pragma omp for
+#pragma omp for reduction(+ : sum)
         for (int i = 0; i < SIZE; i++)
             sum += v1[i] * v2[i];
     }
