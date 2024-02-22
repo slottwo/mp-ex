@@ -1,7 +1,7 @@
 /**
  * @file 1.c
  * @author slottwo (41028091+slottwo@users.noreply.github.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2024-02-22
  *
@@ -32,12 +32,29 @@ int main()
     INICIO
     */
 
+    double partial_π = 0, π;
+    double i, x, dx = 1.0 / N;
+
+    for (i = rank; i < N; i += nprocs)
+    {
+        x = (i + 0.5) * dx;
+        partial_π += 4 / (1 + x * x);
+    }
+
+    partial_π *= dx;
+
+    MPI_Reduce(&partial_π, &π, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
     /*
     FIM
     */
 
     if (rank == 0)
-        printf("Δt = %.3f ms", (MPI_Wtime() - t_init) * 1000);
+    {
+        double t_end = MPI_Wtime();
+        printf("π = %.10f\n", π);
+        printf("Δt = %.9f s\n", t_end - t_init);
+    }
 
     MPI_Finalize();
     return 0;
