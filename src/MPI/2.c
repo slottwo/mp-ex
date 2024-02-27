@@ -98,7 +98,6 @@ int main()
 
 void gen(double *v, int size)
 {
-
     for (int i = 0; i < size; i++)
     {
         double num = (rand() / (double)RAND_MAX);
