@@ -4,9 +4,9 @@
  * @brief Source code model for parallel computing programs using MPI
  * @version 0.1
  * @date 2024-02-22
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #include <mpi.h>
@@ -18,9 +18,9 @@
 
 /**
  * @brief Returns a array of random values between 0 and 1
- * 
- * @param size 
- * @return double* 
+ *
+ * @param size
+ * @return double*
  */
 double *gen(int size);
 
@@ -47,6 +47,11 @@ int main()
     /*
     FIM
     */
+
+    if (rank == 0)
+        printf("Δt: %f\n", MPI_Wtime() - t_init);
+
+    // free(v);
 
     MPI_Finalize();
     return 0;
