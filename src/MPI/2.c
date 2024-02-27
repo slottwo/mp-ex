@@ -19,10 +19,10 @@
 /**
  * @brief Returns a array of random values between 0 and 1
  *
- * @param size
- * @return double*
+ * @param v Double vector
+ * @param size Size of v
  */
-double *gen(int size);
+void gen(double *v, int size);
 
 int main()
 {
@@ -44,9 +44,10 @@ int main()
     INICIO
     */
 
-    double *v, s = 0;
+    double *v = (double *)malloc(sizeof(double) * N), s = 0;
+
     if (rank == 0)
-        v = gen(N);
+        gen(v, N);
 
     MPI_Bcast(v, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
@@ -85,7 +86,9 @@ int main()
     */
 
     if (rank == 0)
-        printf("Δt: %f\n", MPI_Wtime() - t_init);
+    {
+        printf("\nΔt: %f\n", MPI_Wtime() - t_init);
+    }
 
     free(v);
 
@@ -93,16 +96,12 @@ int main()
     return 0;
 }
 
-double *gen(int size)
+void gen(double *v, int size)
 {
-    double *v;
-    v = (double *)malloc(sizeof(double) * size);
 
     for (int i = 0; i < size; i++)
     {
         double num = (rand() / (double)RAND_MAX);
         v[i] = num;
     }
-
-    return v;
 }
