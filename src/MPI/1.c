@@ -24,6 +24,8 @@ int main()
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
 
+    double partial_π = 0, π, i, x, dx = 1.0 / N;
+
     double t_init;
     if (rank == 0)
         t_init = MPI_Wtime();
@@ -31,9 +33,6 @@ int main()
     /*
     INICIO
     */
-
-    double partial_π = 0, π;
-    double i, x, dx = 1.0 / N;
 
     for (i = rank; i < N; i += nprocs)
     {
