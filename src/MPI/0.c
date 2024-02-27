@@ -48,9 +48,6 @@ int main()
     FIM
     */
 
-    if (rank == 0)
-        printf("Δt = %.3f ms", (MPI_Wtime() - t_init) * 1000);
-
     MPI_Finalize();
     return 0;
 }
