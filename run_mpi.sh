@@ -1,4 +1,4 @@
-mpicc -o program src/MPI/$1.c
+mpicc -o program src/MPI/$1.c -lm
 
 N=2
 if [ $# -gt 1 ]; then
