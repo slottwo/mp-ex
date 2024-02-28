@@ -2,8 +2,8 @@
  * @file 0.c
  * @author slottwo (41028091+slottwo@users.noreply.github.com)
  * @brief Source code model for parallel computing programs using MPI
- * @version 0.1
- * @date 2024-02-22
+ * @version 0.3
+ * @date 2024-02-27
  *
  * @copyright Copyright (c) 2024
  *
@@ -17,12 +17,12 @@
 #define N 1000000
 
 /**
- * @brief Returns a array of random values between 0 and 1
+ * @brief It fills a array with random values between 0 and 1
  *
+ * @param array
  * @param size
- * @return double*
  */
-double *gen(int size);
+void gen(double *array, int size);
 
 int main()
 {
@@ -35,6 +35,10 @@ int main()
 
     // Iniciando Time.h
     srand(time(NULL) * rank);
+
+    double *v = (double *)malloc(sizeof(double) * N);
+    if (rank == 0)
+        gen(v, N);
 
     double t_init;
     if (rank == 0)
@@ -51,22 +55,14 @@ int main()
     if (rank == 0)
         printf("Δt: %f\n", MPI_Wtime() - t_init);
 
-    // free(v);
+    free(v);
 
     MPI_Finalize();
     return 0;
 }
 
-double *gen(int size)
+void gen(double *array, int size)
 {
-    double *v;
-    v = (double *)malloc(sizeof(double) * size);
-
     for (int i = 0; i < size; i++)
-    {
-        double num = (rand() / (double)RAND_MAX);
-        v[i] = num;
-    }
-
-    return v;
+        array[i] = (rand() / (double)RAND_MAX);
 }
