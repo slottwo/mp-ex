@@ -1,7 +1,7 @@
 /**
  * @file 0.c
  * @author slottwo (41028091+slottwo@users.noreply.github.com)
- * @brief Standart Deviation
+ * @brief Standard Deviation
  * @version 0.1
  * @date 2024-02-27
  *
