@@ -1,4 +1,6 @@
-if ! module list | grep -q mpi; then
+#!/bin/bash
+
+if ! module list 2&>1 | grep -q mpi; then
     module load mpi
 fi
 
