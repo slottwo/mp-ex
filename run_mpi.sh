@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if command -v module; then
-    if ! module list 2 &>1 | grep -q mpi; then
+if command -v module > /dev/null 2>&1; then
+    if ! module list 2>&1 | grep -q mpi; then
         module load mpi
     fi
 fi
