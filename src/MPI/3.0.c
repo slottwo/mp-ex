@@ -3,7 +3,7 @@
  * @author slottwo (41028091+slottwo@users.noreply.github.com)
  * @brief Standard Deviation using Broadcasting
  * @version 0.1
- * @date 2024-02-27
+ * @date 2024-02-28
  *
  * @copyright Copyright (c) 2024
  *
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 1000000000
+#define N 100000000
 
 /**
  * @brief It fills a array with random values between 0 and 1
@@ -45,7 +45,7 @@ int main()
         t_init = MPI_Wtime();
 
     /*
-    INICIO
+    INÍCIO
     */
 
     MPI_Bcast(X, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
